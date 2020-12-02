@@ -1,1 +1,1 @@
-{"plugins":["cordova-plugin-whitelist"]}
+{"plugins":["cordova-plugin-whitelist","cordova-plugin-screen-orientation","es6-promise-plugin"]}

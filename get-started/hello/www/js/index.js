@@ -40,5 +40,9 @@ function onResize() {
 }
 
 function clickHandler() {
+    // window.echo("echome", function(echoValue) {
+    //     alert(echoValue);
+    // });
+    
     document.getElementById('orientation').innerText = 'button clicked';
 }
