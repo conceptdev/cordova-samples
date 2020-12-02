@@ -51,10 +51,11 @@ function onResize() {
         function(result) { 
             document.getElementById('hinge').innerText = result; 
 
-            if ("0,0,0,0".equals (result))
+            if ('0,0,0,0' == result) {
                 document.getElementById('hinge').innerText = 'not spanned, no hinge';
-            else
+            } else {
                 document.getElementById('hinge').innerText = 'hinge: ' + result;
+            }
         },
         function(error) {  document.getElementById('hinge').innerText = 'hinge: error ' + error; }
     );
@@ -63,7 +64,10 @@ function onResize() {
 function clickHandler() {
     
     window.ScreenHelper.getHinge(
-        function(result) { alert(result); },
+        function(result) { 
+            // alert("hinge: " + result); 
+            alert('0,0,0,0' == result);
+        },
         function(error) { alert('error ' + error); }
     );
 
