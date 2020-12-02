@@ -27,7 +27,7 @@ function onDeviceReady() {
     console.log('Running cordova-' + cordova.platformId + '@' + cordova.version);
     document.getElementById('deviceready').classList.add('ready');
 
-    document.getElementById('metrics').innerText = window.innerWidth + ' x ' + window.innerHeight +' (initial)';
+    document.getElementById('metrics').innerText = window.innerWidth + ' x ' + window.innerHeight + ' (initial)';
 
     document.getElementById('orientation').innerText = screen.orientation.type + ' (initial)';
 }
@@ -41,4 +41,9 @@ function onResize() {
 function clickHandler() {
     
     document.getElementById('orientation').innerText = 'button clicked';
+
+    window.ScreenHelper.say(
+        function(result) { alert( "success: " + result ); },
+        function(error) { alert( "error: " + error ); }
+    );
 }

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plugin xmlns="http://apache.org/cordova/ns/plugins/1.0"
+  id="jp.co.asial.screenhelper"
+  version="0.0.1">
+
+    <name>ScreenHelperPlugin</name>
+    <description>ScreenHelperPlugin Description</description>
+    <author>Asial Corporation</author>
+    <license>Apache 2.0 License</license>
+    <engines>
+        <engine name="cordova" version=">=3.5.0" />
+    </engines>
+    <js-module src="www/screen_helper.js" name="screenhelper">
+        <clobbers target="ScreenHelper" />
+    </js-module>
+
+    <platform name="ios">
+        <config-file target="config.xml" parent="/*">
+            <feature name="ScreenHelperPlugin">
+                <param name="ios-package" value="ScreenHelperPlugin"/>
+            </feature>
+    </config-file>
+    <header-file src="src/ios/ScreenHelperPlugin.h" target-dir="src/ios" />
+        <source-file src="src/ios/ScreenHelperPlugin.m" target-dir="src/ios" />
+    </platform>
+    <platform name="android">
+        <config-file target="res/xml/config.xml" parent="/*">
+            <feature name="ScreenHelperPlugin"> 
+                <param name="android-package" value="mobi.monaca.ScreenHelperPlugin"/>
+            </feature>
+        </config-file>
+        <source-file src="src/android/mobi/monaca/ScreenHelperPlugin.java" target-dir="src/mobi/monaca" />        
+    </platform>
+
+</plugin>
