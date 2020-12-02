@@ -29,8 +29,16 @@ function onDeviceReady() {
     document.getElementById('deviceready').classList.add('ready');
 
     document.getElementById('metrics').innerText = window.innerWidth + ' x ' + window.innerHeight + ' (initial)';
+
+    document.getElementById('orientation').innerText = screen.orientation.type + ' (initial)';
 }
 
 function onResize() {
     document.getElementById('metrics').innerText = window.innerWidth + ' x ' + window.innerHeight + ' (after resize)';
+
+    document.getElementById('orientation').innerText = screen.orientation.type + ' (after resize)';
+}
+
+function clickHandler() {
+    document.getElementById('orientation').innerText = 'button clicked';
 }
