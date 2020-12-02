@@ -20,7 +20,7 @@
 // Wait for the deviceready event before using any of Cordova's device APIs.
 // See https://cordova.apache.org/docs/en/latest/cordova/events/events.html#deviceready
 document.addEventListener('deviceready', onDeviceReady, false);
-document.addEventListener('resize', onResize, true);
+window.addEventListener('resize', onResize, true);
 
 function onDeviceReady() {
     // Cordova is now initialized. Have fun!
@@ -33,35 +33,25 @@ function onDeviceReady() {
     document.getElementById('orientation').innerText = screen.orientation.type + ' (initial)';
 
     document.getElementById('dualscreen').innerText = 'isSurfaceDuo: ?';
+
+    window.ScreenHelper.isDualScreenDevice(
+        function(result) { document.getElementById('dualscreen').innerText = 'isSurfaceDuo: ' + result; },
+        function(error) {  document.getElementById('dualscreen').innerText = 'isSurfaceDuo: error ' + error; }
+    );
 }
 
 function onResize() {
     document.getElementById('metrics').innerText = window.innerWidth + ' x ' + window.innerHeight + ' (after resize)';
 
     document.getElementById('orientation').innerText = screen.orientation.type + ' (after resize)';
-
-    var answer = '?';
-
-    window.ScreenHelper.say(
-        function(result) { answer = result; },
-        function(error) { answer = 'error ' + error; }
-    );
-
-    document.getElementById('dualscreen').innerText = 'isSurfaceDuo: ' + answer;
 }
 
 function clickHandler() {
     
-    //document.getElementById('orientation').innerText = 'button clicked';
-
-    var answer = 'X';
-
     window.ScreenHelper.isDualScreenDevice(
-        function(result) { alert( "success: " + result ); answer = result; },
-        function(error) { alert( "error: " + error ); }
+        function(result) { answer = result; },
+        function(error) { answer = 'error ' + error; }
     );
 
-    var answer = 'Y';
-
-    document.getElementById('dualscreen').innerText = 'isSurfaceDuo: ' + answer;
+    document.getElementById('dualscreen').innerText = 'isSurfaceDuo: ' + answer + " (clicked)";
 }

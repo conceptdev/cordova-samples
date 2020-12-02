@@ -17,8 +17,26 @@ import android.util.Log;
 public class ScreenHelperPlugin extends CordovaPlugin {
     @Override
     public boolean execute(String action, JSONArray args, CallbackContext callbackContext) throws JSONException {
-        callbackContext.success("isDeviceSurfaceDuo:" + isDeviceSurfaceDuo());
-        return true;
+        Log.d(TAG, "execute action: " + action);
+        
+        // Route the Action
+        if (action.equals("say")) {
+            callbackContext.success("Hello ScreenHelper!" + isDeviceSurfaceDuo());
+            return true;
+        }
+        if (action.equals("isDualScreenDevice")) {
+            this.cordova.getActivity().runOnUiThread(new Runnable() {
+                public void run() {
+                    callbackContext.success(""+isDeviceSurfaceDuo()); // Thread-safe.
+                }
+            });
+            //callbackContext.success(""+isDeviceSurfaceDuo());
+            return true;
+        }
+
+        // Action not found
+        callbackContext.error("action "+action+" not recognized");
+        return false;
     }
 
     static final String TAG = "ScreenHelperCordovaPlugin";
