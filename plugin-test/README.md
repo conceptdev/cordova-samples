@@ -14,6 +14,8 @@ cordova run
 cordova plugin add C:\GitHubConceptdev\cordova_plugin_sample
 
 cordova plugin add C:\GitHubConceptdev\cordova-samples\plugin
+
+//cordova plugin remove plugin
 ```
 
 HTML
@@ -91,11 +93,13 @@ function onResize() {
 }
 
 function clickHandler() {
-    // window.echo("echome", function(echoValue) {
-    //     alert(echoValue);
-    // });
     
     document.getElementById('orientation').innerText = 'button clicked';
+
+    window.ScreenHelper.say(
+        function(result) { alert( "success: " + result ); },
+        function(error) { alert( "error: " + error ); }
+    );
 }
 
 ```

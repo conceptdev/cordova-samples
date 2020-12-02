@@ -17,12 +17,12 @@ import android.util.Log;
 public class ScreenHelperPlugin extends CordovaPlugin {
     @Override
     public boolean execute(String action, JSONArray args, CallbackContext callbackContext) throws JSONException {
-        callbackContext.success("Hello ScreenHelper!" + isDeviceSurfaceDuo());
+        callbackContext.success("isDeviceSurfaceDuo:" + isDeviceSurfaceDuo());
         return true;
     }
 
-    static final String TAG = "ScreenHelper";
-    
+    static final String TAG = "ScreenHelperCordovaPlugin";
+
     private boolean isDeviceSurfaceDuo(){
         String feature = "com.microsoft.device.display.displaymask";
         Activity activity = this.cordova.getActivity();
