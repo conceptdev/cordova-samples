@@ -93,7 +93,7 @@ function onResize() {
 }
 
 function clickHandler() {
-    
+
     document.getElementById('orientation').innerText = 'button clicked';
 
     window.ScreenHelper.say(

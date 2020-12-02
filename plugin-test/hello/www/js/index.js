@@ -34,6 +34,8 @@ function onDeviceReady() {
 
     document.getElementById('dualscreen').innerText = 'isSurfaceDuo: ?';
 
+    document.getElementById('hinge').innerText = 'not spanned, no hinge';
+
     window.ScreenHelper.isDualScreenDevice(
         function(result) { document.getElementById('dualscreen').innerText = 'isSurfaceDuo: ' + result; },
         function(error) {  document.getElementById('dualscreen').innerText = 'isSurfaceDuo: error ' + error; }
@@ -43,15 +45,27 @@ function onDeviceReady() {
 function onResize() {
     document.getElementById('metrics').innerText = window.innerWidth + ' x ' + window.innerHeight + ' (after resize)';
 
-    document.getElementById('orientation').innerText = screen.orientation.type + ' (after resize)';
+    document.getElementById('orientation').innerText = screen.orientation.type + ' ' + screen.orientation.angle +  ' (after resize)';
+
+    window.ScreenHelper.getHinge(
+        function(result) { 
+            document.getElementById('hinge').innerText = result; 
+
+            if ("0,0,0,0".equals (result))
+                document.getElementById('hinge').innerText = 'not spanned, no hinge';
+            else
+                document.getElementById('hinge').innerText = 'hinge: ' + result;
+        },
+        function(error) {  document.getElementById('hinge').innerText = 'hinge: error ' + error; }
+    );
 }
 
 function clickHandler() {
     
-    window.ScreenHelper.isDualScreenDevice(
-        function(result) { answer = result; },
-        function(error) { answer = 'error ' + error; }
+    window.ScreenHelper.getHinge(
+        function(result) { alert(result); },
+        function(error) { alert('error ' + error); }
     );
 
-    document.getElementById('dualscreen').innerText = 'isSurfaceDuo: ' + answer + " (clicked)";
+   // document.getElementById('dualscreen').innerText = 'isSurfaceDuo: ' + answer + " (clicked)";
 }

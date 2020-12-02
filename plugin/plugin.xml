@@ -30,6 +30,8 @@
             </feature>
         </config-file>
         <source-file src="src/android/mobi/monaca/ScreenHelperPlugin.java" target-dir="src/mobi/monaca" />        
+        <lib-file src="src/android/libs/com.microsoft.device.display.displaymask.jar" arch="device" />
+        <lib-file src="src/android/libs/com.microsoft.device.display.displaymask.jar" arch="simulator" />
     </platform>
 
 </plugin>
