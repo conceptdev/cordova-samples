@@ -6,7 +6,7 @@
 document.addEventListener("deviceready", onDeviceReady, false);
 
 function onDeviceReady() {
-    window.ScreenHelper.say(
+    window.ScreenHelper.isDeviceSurfaceDuo(
         function(result) {
             alert("result = " + result);
         },

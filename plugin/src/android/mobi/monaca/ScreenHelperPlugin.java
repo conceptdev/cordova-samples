@@ -24,10 +24,6 @@ public class ScreenHelperPlugin extends CordovaPlugin {
         Log.d(TAG, "execute action: " + action);
         
         // Route the Action
-        if (action.equals("say")) {
-            callbackContext.success("Hello ScreenHelper!" + isDeviceSurfaceDuo());
-            return true;
-        }
         if (action.equals("isDualScreenDevice")) {
             // this.cordova.getActivity().runOnUiThread(new Runnable() {
             //     public void run() {
@@ -39,6 +35,10 @@ public class ScreenHelperPlugin extends CordovaPlugin {
         }
         if (action.equals("getHinge")) {
             callbackContext.success(getDisplayMask());
+            return true;
+        }
+        if (action.equals("getStatusBarHeight")) {
+            callbackContext.success(""+getStatusBarHeight());
             return true;
         }
 
@@ -76,5 +76,16 @@ public class ScreenHelperPlugin extends CordovaPlugin {
         }
 
         return String.format("%d,%d,%d,%d", mask.left, mask.top, mask.right - mask.left, mask.bottom - mask.top);
+    }
+
+    public int getStatusBarHeight() {
+        Activity activity = this.cordova.getActivity();
+
+        int result = 0;
+        int resourceId = activity.getResources().getIdentifier("status_bar_height", "dimen", "android");
+        if (resourceId > 0) {
+            result = activity.getResources().getDimensionPixelSize(resourceId);
+        }
+        return result;
     }
 }
