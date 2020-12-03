@@ -57,8 +57,7 @@ function onResize() {
                 document.getElementById('debughinge').classList.remove('single');
                 document.getElementById('debughinge').classList.add('spanned');
 
-                // document.getElementById('debughinge').setAttribute('left', h.x);
-                // document.getElementById('debughinge').setAttribute('top', h.y);
+                h.setDimensions(document.getElementById('debughinge'));
             } else {
                 document.getElementById('debughinge').classList.remove('spanned');
                 document.getElementById('debughinge').classList.add('single');
@@ -71,12 +70,12 @@ function onResize() {
 
 function Hinge(dimString) {
     this.isSpanned = ('0,0,0,0' != dimString);
-
+    const densityFactor = 2.5;
     var arrayOfDims = dimString.split(',');
-    this.x = arrayOfDims[0] / 2.5;
-    this.y = arrayOfDims[1] / 2.5;
-    this.width = arrayOfDims[2] / 2.5;
-    this.height = arrayOfDims[3] / 2.5;
+    this.x = arrayOfDims[0] / densityFactor;
+    this.y = arrayOfDims[1] / densityFactor;
+    this.width = arrayOfDims[2] / densityFactor;
+    this.height = arrayOfDims[3] / densityFactor;
 
     this.isVertical = (this.x > 0);
     this.isHorizontal = (this.x == 0);
@@ -92,24 +91,27 @@ Hinge.prototype.setDimensions = function(div) {
 }
 
 function clickHandler() {
-    
-    window.ScreenHelper.getHinge(
-        function(result) { 
-            // alert("hinge: " + result); 
-            //alert('0,0,0,0' == result);
-            var h = new Hinge (result);
-            //alert('isSpanned: ' + h.isSpanned + ' ' + result);
-            //alert ('x is '+ h.x);
-            alert(h.x + 'px');
-            h.setDimensions(document.getElementById('debughinge'));
-            // document.getElementById('debughinge').style.left = h.x + 'px';
-            // document.getElementById('debughinge').style.top = h.y + 'px';
-            // document.getElementById('debughinge').style.width = h.width + 'px';
-            // document.getElementById('debughinge').style.height = h.height + 'px';
-            
-        },
+    window.ScreenHelper.getStatusBarHeight (
+        function(result) { alert('status bar: ' + result);    },
         function(error) { alert('error ' + error); }
+
     );
+    // window.ScreenHelper.getHinge(
+    //     function(result) { 
+    //         // alert("hinge: " + result); 
+    //         //alert('0,0,0,0' == result);
+    //         var h = new Hinge (result);
+    //         //alert('isSpanned: ' + h.isSpanned + ' ' + result);
+    //         //alert ('x is '+ h.x);
+    //         alert(h.x + 'px');
+    //         h.setDimensions(document.getElementById('debughinge'));
+    //         // document.getElementById('debughinge').style.left = h.x + 'px';
+    //         // document.getElementById('debughinge').style.top = h.y + 'px';
+    //         // document.getElementById('debughinge').style.width = h.width + 'px';
+    //         // document.getElementById('debughinge').style.height = h.height + 'px';
+    //     },
+    //     function(error) { alert('error ' + error); }
+    // );
 
    // document.getElementById('dualscreen').innerText = 'isSurfaceDuo: ' + answer + " (clicked)";
 }
