@@ -53,8 +53,12 @@ function onResize() {
 
             if ('0,0,0,0' == result) {
                 document.getElementById('hinge').innerText = 'not spanned, no hinge';
+                document.getElementById('debughinge').classList.remove('spanned');
+                document.getElementById('debughinge').classList.add('single');
             } else {
                 document.getElementById('hinge').innerText = 'hinge: ' + result;
+                document.getElementById('debughinge').classList.remove('single');
+                document.getElementById('debughinge').classList.add('spanned');
             }
         },
         function(error) {  document.getElementById('hinge').innerText = 'hinge: error ' + error; }
