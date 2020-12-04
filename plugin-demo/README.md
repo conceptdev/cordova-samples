@@ -1,6 +1,8 @@
 # Cordova Screen Helper plugin demo
 
+Simple Cordova app demo that shows how to detect when your app is running on a Surface Duo, and adapt the layout for dual-screens.
 
+![Cordova demo app on Surface Duo dual-portrait](../Screenshots/plugin-demo-wide.png) ![Cordova demo app on Surface Duo dual-landscape](../Screenshots/plugin-demo-tall.png)
 
 ## Basic setup
 
