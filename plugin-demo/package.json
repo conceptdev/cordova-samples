@@ -20,7 +20,8 @@
   "cordova": {
     "plugins": {
       "cordova-plugin-whitelist": {},
-      "co.conceptdev.screenhelper": {}
+      "co.conceptdev.screenhelper": {},
+      "cordova-plugin-screen-orientation": {}
     },
     "platforms": [
       "android"
