@@ -62,17 +62,28 @@ function onResize() {
                 document.getElementById('debughinge').classList.add('spanned');
                 h.setDimensions(document.getElementById('debughinge'));
 
+                document.getElementsByClassName("secondscreen")[0].style.display = 'block';
+
                 if (h.isVertical) { // move the app content to the left
                     document.getElementsByClassName("app")[0].style.left = '25%';
                     document.getElementsByClassName("app")[0].style.top = '50%';
+
+                    document.getElementsByClassName("secondscreen")[0].style.left = '75%';
+                    document.getElementsByClassName("secondscreen")[0].style.top = '50%';
                 } else { // isHorizontal
                     document.getElementsByClassName("app")[0].style.left = '50%';
                     document.getElementsByClassName("app")[0].style.top = '25%';
+
+                    document.getElementsByClassName("secondscreen")[0].style.left = '50%';
+                    document.getElementsByClassName("secondscreen")[0].style.top = '75%';
                 }
             } else { // NOT spanned
                 // hide the debug hinge visualization
                 document.getElementById('debughinge').classList.remove('spanned');
                 document.getElementById('debughinge').classList.add('single');
+
+                // hide the second screen
+                document.getElementsByClassName("secondscreen")[0].style.display = 'none';
 
                 // reset the app container style
                 document.getElementsByClassName("app")[0].style.left = '50%';

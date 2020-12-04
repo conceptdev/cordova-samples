@@ -61,6 +61,19 @@ body {
     }
 }
 
+.secondscreen {
+    background:url(../img/surface-duo.png) no-repeat center top; /* 200px x 200px */
+    position:absolute;             /* position in the center of the screen */
+    left:75%;
+    top:50%;
+    height:200px;
+    width:200px;
+    padding:100px 0px 0px 0px;     /* image height is 200px (bottom 20px are overlapped with text) */
+    margin:-100px 0px 0px -100px;  /* offset vertical: half of image height */
+                                   /* offset horizontal: half of text area width */
+    display:none;                  /* only show when spanned */
+}
+
 h1 {
     font-size:24px;
     font-weight:normal;
