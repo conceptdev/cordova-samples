@@ -97,13 +97,12 @@ function onResize() {
 /* Hinge object to encapsulate dimensions and display handling */
 function Hinge(dimString) {
     this.isSpanned = ('0,0,0,0' != dimString.substring(0,7)); // no hinge present means not spanned
-    const densityFactor = 2.5; // hardcoded for Surface Duo
     var arrayOfDims = dimString.split(',');
-    this.x = arrayOfDims[0] / densityFactor;
-    this.y = arrayOfDims[1] / densityFactor;
-    this.width = arrayOfDims[2] / densityFactor;
-    this.height = arrayOfDims[3] / densityFactor;
-    this.statusBarHeight = arrayOfDims[4] / densityFactor;
+    this.x = parseInt(arrayOfDims[0]);
+    this.y = parseInt(arrayOfDims[1]);
+    this.width = parseInt(arrayOfDims[2]);
+    this.height = parseInt(arrayOfDims[3]);
+    this.statusBarHeight = parseInt(arrayOfDims[4]);
 
     this.isVertical = (this.x > 0);
     this.isHorizontal = (this.x == 0);
