@@ -1,28 +1,3 @@
-# Setup info
-
-```dotnetcli
-cordova create plugin-demo com.example.hello PluginDemo
-
-cd plugin-demo
-
-cordova platform add android
-
-cordova run                # or cordova emulate
-
-cordova plugin add https://github.com/conceptdev/cordova-dualscreeninfo-plugin/
-
-// setup html & js
-
-//cordova plugin add C:\GitHubConceptdev\cordova_plugin_sample
-
-//cordova plugin add C:\GitHubConceptdev\cordova-samples\plugin
-
-//cordova plugin remove plugin
-```
-
-HTML
-
-```html
 <!DOCTYPE html>
 <!--
     Licensed to the Apache Software Foundation (ASF) under one
@@ -45,13 +20,24 @@ HTML
 <html>
     <head>
         <meta charset="utf-8">
+        <!--
+        Customize this policy to fit your own app's needs. For more guidance, see:
+            https://github.com/apache/cordova-plugin-whitelist/blob/master/README.md#content-security-policy
+        Some notes:
+            * gap: is required only on iOS (when using UIWebView) and is needed for JS->native communication
+            * https://ssl.gstatic.com is required only on Android and is needed for TalkBack to function properly
+            * Disables use of inline scripts in order to mitigate risk of XSS vulnerabilities. To change this:
+                * Enable inline JS: add 'unsafe-inline' to default-src
+        -->
         <meta http-equiv="Content-Security-Policy" content="default-src 'self' 'unsafe-inline' data: gap: https://ssl.gstatic.com 'unsafe-eval'; style-src 'self' 'unsafe-inline'; media-src *; img-src 'self' data: content:;">
         <meta name="format-detection" content="telephone=no">
         <meta name="msapplication-tap-highlight" content="no">
         <meta name="viewport" content="initial-scale=1, width=device-width, viewport-fit=cover">
         <meta name="color-scheme" content="light dark">
         <link rel="stylesheet" href="css/index.css">
-        <title>Hello World</title>
+        <link rel="stylesheet" href="css/hinge.css">
+        <link rel="stylesheet" href="css/secondscreen.css">
+        <title>Dual-screen Demo</title>
     </head>
     <body>
         <div class="app">
@@ -62,46 +48,15 @@ HTML
             </div>
             <div id="metrics"><p>...</p></div>
             <div id="orientation"><p>...</p></div>
-            <button onclick="clickHandler();">Click me</button>
+            <div id="dualscreen"><p>...</p></div>
+            <div id="hinge"><p>...</p></div>
+            <button onclick="clickHandler();">Show debug hinge</button>
+        
+            <div class="fold angled stripes single" id="debughinge"></div>
+        </div>
+        <div class="secondscreen">
         </div>
         <script src="cordova.js"></script>
         <script src="js/index.js"></script>
     </body>
 </html>
-
-```
-
-```javascript
-// Wait for the deviceready event before using any of Cordova's device APIs.
-// See https://cordova.apache.org/docs/en/latest/cordova/events/events.html#deviceready
-document.addEventListener('deviceready', onDeviceReady, false);
-window.addEventListener('resize', onResize, true);
-
-function onDeviceReady() {
-    // Cordova is now initialized. Have fun!
-
-    console.log('Running cordova-' + cordova.platformId + '@' + cordova.version);
-    document.getElementById('deviceready').classList.add('ready');
-
-    document.getElementById('metrics').innerText = window.innerWidth + ' x ' + window.innerHeight + ' (initial)';
-
-    document.getElementById('orientation').innerText = screen.orientation.type + ' (initial)';
-}
-
-function onResize() {
-    document.getElementById('metrics').innerText = window.innerWidth + ' x ' + window.innerHeight + ' (after resize)';
-
-    document.getElementById('orientation').innerText = screen.orientation.type + ' (after resize)';
-}
-
-function clickHandler() {
-
-    document.getElementById('orientation').innerText = 'button clicked';
-
-    window.ScreenHelper.say(
-        function(result) { alert( "success: " + result ); },
-        function(error) { alert( "error: " + error ); }
-    );
-}
-
-```
