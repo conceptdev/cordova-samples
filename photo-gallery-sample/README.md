@@ -1,65 +1,71 @@
-# Cordova Screen Helper plugin demo using dual-screen CSS polyfill
+# Dual-screen Photo Gallery sample using CSS polyfill
 
 Simple Cordova app demo that shows how use dual-screen CSS polyfill to simplify Surface Duo support using proposed web standards (which you can also use on your website).
+
+![Cordova Photo Gallery sample on Surface Duo dual-portrait](../Screenshots/photo-gallery-wide.png) ![Cordova Photo Gallery sample on Surface Duo dual-landscape](../Screenshots/photo-gallery-tall.png)
+
+The [foldable display polyfill repo](https://github.com/foldable-devices/spanning-css-polyfill) contains the JavaScript code, docs, and samples.
 
 ## Basic setup
 
 To create your own plugin demo app that minimally retrieves and displays device telemetry (including dual-screen info), refer to the [plugin demo project](../plugin-demo/).
 
-## Dual-screen CSS
+## Photo Gallery sample
 
-The dual-screen CSS support is covered in the [documentation](https://docs.microsoft.com/dual-screen/web/css-media-spanning).
+This app contains the [Photo Gallery code](https://github.com/foldable-devices/demos/tree/master/photo-gallery) from the [foldable-devices repo](https://github.com/foldable-devices).
 
-The polyfills for CSS and JavaScript support are from the [foldable-devices repo](https://github.com/foldable-devices/).
+1. Contents of the [**build** folder](https://github.com/foldable-devices/demos/tree/master/photo-gallery/build) copied into Cordova app's **www** folder.
+1. Cordova scripts added to the **index.html** page.
 
-The dual-screen CSS samples are from [this web-sample](https://github.com/conceptdev/web-samples/tree/master/dual-screen-css).
+    ```javascript
+        <!-- Cordova scripts added to sample -->
+        <script src="cordova.js"></script>
+        <script src="js/index.js"></script>
+    ```
 
-### Simple
+1. In **js/index.js** add code to handle the `resize` event, and directly update the polyfill's state to adapt to the app being spanned (or un-spanned):
 
-This simple example uses two `div` elements and the CSS `@media` support to show or hide and position the second `div` when the app is spanned across two screens:
-
-![Cordova demo app on Surface Duo dual-portrait](../Screenshots/css-demo-simple-wide.png) ![Cordova demo app on Surface Duo dual-landscape](../Screenshots/css-demo-simple-tall.png)
-
-```html
-<div class="text">Main Content</div>
-<div class="fold angled stripes"></div>
-<div class="second-container">Detail panel</div>
-```
-
-```css
-@media (spanning: single-fold-vertical) {
-    .main-container {
-      width: env(fold-left);
-      height: 100vh;
+    ```javascript
+    window.addEventListener('resize', onResize, true);
+    function onDeviceReady() {
+        // Cordova is now initialized. Have fun!
+        console.log('Running cordova-' + cordova.platformId + '@' + cordova.version);
+    
+        updateSpanning();
     }
-    .fold {
-      height: env(fold-height);
-      width: env(fold-width);
+    /* every time the screen resizes we check the hinge dimensions to see if app has spanned/unspanned or rotated */
+    function onResize() {
+        updateSpanning();
     }
-    .content {
-      flex-direction: row;
+    function updateSpanning() {
+        window.ScreenHelper.getHinge(
+            function(result) { 
+                var h = new Hinge (result);
+                //alert('Spanned: ' + h.isSpanned + ' foldables ' + window["__foldables__"].screenSpanning);
+    
+                if (h.isSpanned) {
+                    if (h.isVertical) {
+                        window["__foldables__"].screenSpanning = 'single-fold-vertical';
+                        window["__foldables__"].foldSize = parseInt(h.width);
+                    } else { // isHorizontal
+                        window["__foldables__"].screenSpanning = 'single-fold-horizontal';
+                        window["__foldables__"].foldSize = parseInt(h.height);
+                    }
+                } else { // not spanned
+                    window["__foldables__"].screenSpanning = 'none';
+                    window["__foldables__"].foldSize = 0;
+                }
+            },
+            function(error) {  document.getElementById('hinge').innerText = 'hinge: error ' + error; }
+        );
     }
-    .second-container {
-      height: 100vh;
-      width: calc(100vw - env(fold-left) - env(fold-width));
-    }
-}
-```
+    ```
 
-### Boxes
-
-The boxes page positions a number of `div` elements using different CSS rules:
-
-![Cordova demo app on Surface Duo dual-portrait](../Screenshots/css-demo-boxes-wide.png) ![Cordova demo app on Surface Duo dual-landscape](../Screenshots/css-demo-boxes-tall.png)
-
-View the [**boxes.html** source](www/boxes.html) to see the CSS and HTML.
-
-## Cordova security warning
-
-THe dual-screen polyfill JavaScript code uses `fetch` to load and inspect CSS files - there is a [known issue](https://github.com/apache/cordova-android/issues/1004) with using `fetch` with `file://`-served web content. For this sample to work, the CSS files have been included in the HTML.
+    (uses the `Hinge` class built for other samples in this repo)
 
 ## Resources
 
+- [Foldable-devices polyfill repo](https://github.com/foldable-devices/)
 - [Cordova dual-screen plugin repo](https://github.com/conceptdev/cordova-dualscreeninfo-plugin)
 - [Surface Duo developer documentation](https://docs.microsoft.com/dual-screen/)
 - [Surface Duo developer blog](https://devblogs.microsoft.com/surface-duo/)
