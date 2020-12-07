@@ -19,6 +19,9 @@
 
 // Wait for the deviceready event before using any of Cordova's device APIs.
 // See https://cordova.apache.org/docs/en/latest/cordova/events/events.html#deviceready
+// import { FoldablesFeature } from '../web_modules/spanning-css-polyfill.js';
+//const foldablesFeat = new FoldablesFeature;
+
 document.addEventListener('deviceready', onDeviceReady, false);
 window.addEventListener('resize', onResize, true);
 
@@ -26,71 +29,42 @@ function onDeviceReady() {
     // Cordova is now initialized. Have fun!
 
     console.log('Running cordova-' + cordova.platformId + '@' + cordova.version);
-    document.getElementById('deviceready').classList.add('ready');
+    //document.getElementById('deviceready').classList.add('ready');
 
-    document.getElementById('metrics').innerText = window.innerWidth + ' x ' + window.innerHeight + ' (initial)';
-
-    document.getElementById('orientation').innerText = screen.orientation.type + ' (initial)';
-
-    document.getElementById('dualscreen').innerText = 'isSurfaceDuo: ?';
-
-    document.getElementById('hinge').innerText = 'not spanned, no hinge';
-
-    window.ScreenHelper.isDualScreenDevice(
-        function(result) { document.getElementById('dualscreen').innerText = 'isSurfaceDuo: ' + result; },
-        function(error) {  document.getElementById('dualscreen').innerText = 'isSurfaceDuo: error ' + error; }
-    );
-
-    updateSpanning();
+    alert('Running cordova-' + cordova.platformId + '@' + cordova.version);
 }
 /* every time the screen resizes we check the hinge dimensions to see if app has spanned/unspanned or rotated */
 function onResize() {
     updateSpanning();
 }
 function updateSpanning() {
-    document.getElementById('metrics').innerText = window.innerWidth + ' x ' + window.innerHeight;
-
-    document.getElementById('orientation').innerText = screen.orientation.type + ' ' + screen.orientation.angle;
+    alert('updateSpanning');
 
     window.ScreenHelper.getHinge(
         function(result) { 
             var h = new Hinge (result);
-            document.getElementById('hinge').innerText = 'Spanned: ' + h.isSpanned; 
+            alert('Spanned: ' + h.isSpanned + ' foldables ' + window["__foldables__"].screenSpanning);
 
             if (h.isSpanned) {
-                document.getElementById('hinge').innerText += ' hinge: ' + h.toString();
-                // show the debug hinge visualization, and size it correctly for the orientation
-                document.getElementById('debughinge').classList.remove('single');
-                document.getElementById('debughinge').classList.add('spanned');
-                h.setDimensions(document.getElementById('debughinge'));
+                if (h.isVertical) {
+                    window["__foldables__"].screenSpanning = 'single-fold-vertical';
+                    window["__foldables__"].foldSize = parseInt(h.width);
 
-                document.getElementsByClassName("secondscreen")[0].style.display = 'block';
-
-                if (h.isVertical) { // move the app content to the left
-                    document.getElementsByClassName("app")[0].style.left = '25%';
-                    document.getElementsByClassName("app")[0].style.top = '50%';
-
-                    document.getElementsByClassName("secondscreen")[0].style.left = '75%';
-                    document.getElementsByClassName("secondscreen")[0].style.top = '50%';
+                    //window["__foldables__"].update({screenSpanning: 'single-fold-vertical', foldSize: parseInt(h.width)});
+                    //Object.assign(foldablesFeat, { foldSize: parseInt(h.width), screenSpanning: "single-fold-vertical"});
                 } else { // isHorizontal
-                    document.getElementsByClassName("app")[0].style.left = '50%';
-                    document.getElementsByClassName("app")[0].style.top = '25%';
-
-                    document.getElementsByClassName("secondscreen")[0].style.left = '50%';
-                    document.getElementsByClassName("secondscreen")[0].style.top = '75%';
+                    window["__foldables__"].screenSpanning = 'single-fold-horizontal';
+                    window["__foldables__"].foldSize = parseInt(h.width);
+                    
+                    //window["__foldables__"].update({screenSpanning: 'single-fold-horizontal', foldSize: parseInt(h.height)});
+                    //Object.assign(foldablesFeat, { foldSize: parseInt(h.width), screenSpanning: "single-fold-horizontal"});
                 }
-            } else { // NOT spanned
-                // hide the debug hinge visualization
-                document.getElementById('debughinge').classList.remove('spanned');
-                document.getElementById('debughinge').classList.add('single');
-
-                // hide the second screen
-                document.getElementsByClassName("secondscreen")[0].style.display = 'none';
-
-                // reset the app container style
-                document.getElementsByClassName("app")[0].style.left = '50%';
-                document.getElementsByClassName("app")[0].style.top = '50%';
-            } 
+            } else { // not spanned
+                window["__foldables__"].screenSpanning = 'none';
+                window["__foldables__"].foldSize = 0;
+                //window["__foldables__"].update({screenSpanning: 'none', foldSize: 0});
+                //Object.assign(foldablesFeat, { foldSize: 0, screenSpanning: "none"});
+            }
         },
         function(error) {  document.getElementById('hinge').innerText = 'hinge: error ' + error; }
     );
