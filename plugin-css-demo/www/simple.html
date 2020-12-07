@@ -80,7 +80,7 @@ https://github.com/foldable-devices/device-configurator/blob/master/LICENSE.md
     height: 0;
     width: 0;
   }
-  @media (spanning: single-fold-vertical) {
+  @media (screen-spanning: single-fold-vertical) {
     .main-container {
       width: env(fold-left);
       height: 100vh;
@@ -97,7 +97,7 @@ https://github.com/foldable-devices/device-configurator/blob/master/LICENSE.md
       width: calc(100vw - env(fold-left) - env(fold-width));
     }
   }
-  @media (spanning: single-fold-horizontal) {
+  @media (screen-spanning: single-fold-horizontal) {
     .main-container {
       width: 100vw;
       height: calc(100vh - env(fold-top) - env(fold-height));
@@ -114,7 +114,7 @@ https://github.com/foldable-devices/device-configurator/blob/master/LICENSE.md
       width: 100vw;
     }
   }
-  @media (spanning: none) {
+  @media (screen-spanning: none) {
     .main-container {
       width: 100vw;
       height: 100vh;
