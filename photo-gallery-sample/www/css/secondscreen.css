@@ -1,0 +1,14 @@
+/*
+* Class used to show content on the second screen of the Surface Duo
+*/
+.secondscreen {
+    background:url(../img/surface-duo.png) no-repeat center top; /* 200px x 200px */
+    position:absolute;             /* position in the center of the screen */
+    left:75%;
+    top:50%;
+    height:200px;
+    width:200px;
+    padding:100px 0px 0px 0px;     /* image height is 200px */
+    margin:-100px 0px 0px -100px;  /* offset vertical: half of image height */
+    display:none;                  /* only show when spanned */
+}
