@@ -19,51 +19,36 @@
 
 // Wait for the deviceready event before using any of Cordova's device APIs.
 // See https://cordova.apache.org/docs/en/latest/cordova/events/events.html#deviceready
-// import { FoldablesFeature } from '../web_modules/spanning-css-polyfill.js';
-//const foldablesFeat = new FoldablesFeature;
-
 document.addEventListener('deviceready', onDeviceReady, false);
 window.addEventListener('resize', onResize, true);
 
 function onDeviceReady() {
     // Cordova is now initialized. Have fun!
-
     console.log('Running cordova-' + cordova.platformId + '@' + cordova.version);
-    //document.getElementById('deviceready').classList.add('ready');
 
-    alert('Running cordova-' + cordova.platformId + '@' + cordova.version);
+    updateSpanning();
 }
 /* every time the screen resizes we check the hinge dimensions to see if app has spanned/unspanned or rotated */
 function onResize() {
     updateSpanning();
 }
 function updateSpanning() {
-    alert('updateSpanning');
-
     window.ScreenHelper.getHinge(
         function(result) { 
             var h = new Hinge (result);
-            alert('Spanned: ' + h.isSpanned + ' foldables ' + window["__foldables__"].screenSpanning);
+            //alert('Spanned: ' + h.isSpanned + ' foldables ' + window["__foldables__"].screenSpanning);
 
             if (h.isSpanned) {
                 if (h.isVertical) {
                     window["__foldables__"].screenSpanning = 'single-fold-vertical';
                     window["__foldables__"].foldSize = parseInt(h.width);
-
-                    //window["__foldables__"].update({screenSpanning: 'single-fold-vertical', foldSize: parseInt(h.width)});
-                    //Object.assign(foldablesFeat, { foldSize: parseInt(h.width), screenSpanning: "single-fold-vertical"});
                 } else { // isHorizontal
                     window["__foldables__"].screenSpanning = 'single-fold-horizontal';
-                    window["__foldables__"].foldSize = parseInt(h.width);
-                    
-                    //window["__foldables__"].update({screenSpanning: 'single-fold-horizontal', foldSize: parseInt(h.height)});
-                    //Object.assign(foldablesFeat, { foldSize: parseInt(h.width), screenSpanning: "single-fold-horizontal"});
+                    window["__foldables__"].foldSize = parseInt(h.height);
                 }
             } else { // not spanned
                 window["__foldables__"].screenSpanning = 'none';
                 window["__foldables__"].foldSize = 0;
-                //window["__foldables__"].update({screenSpanning: 'none', foldSize: 0});
-                //Object.assign(foldablesFeat, { foldSize: 0, screenSpanning: "none"});
             }
         },
         function(error) {  document.getElementById('hinge').innerText = 'hinge: error ' + error; }
